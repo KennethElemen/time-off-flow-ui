@@ -12,10 +12,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { useLeave } from '@/contexts/LeaveContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
 
 export function TopBar() {
   const { currentUser } = useLeave();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <header className="border-b bg-background px-6 py-3 flex items-center justify-between">
@@ -53,7 +59,7 @@ export function TopBar() {
               <Link to="/profile">Profile Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">
+            <DropdownMenuItem onClick={handleLogout} className="text-red-600">
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
