@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { Calendar, User, Clock, Settings } from 'lucide-react';
+import { Calendar, User, Clock, Settings, BarChart3 } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -14,10 +14,10 @@ import {
 } from '@/components/ui/sidebar';
 import { useLeave } from '@/contexts/LeaveContext';
 
-const navigationItems = [
+const employeeItems = [
   {
     title: 'Dashboard',
-    url: '/',
+    url: '/employee',
     icon: Calendar,
   },
   {
@@ -34,8 +34,13 @@ const navigationItems = [
 
 const adminItems = [
   {
-    title: 'Admin Panel',
+    title: 'Admin Dashboard',
     url: '/admin',
+    icon: BarChart3,
+  },
+  {
+    title: 'Manage Requests',
+    url: '/admin-panel',
     icon: Settings,
   },
 ];
@@ -43,6 +48,8 @@ const adminItems = [
 export function AppSidebar() {
   const location = useLocation();
   const { currentUser } = useLeave();
+
+  const isAdmin = currentUser.role === 'admin';
 
   return (
     <Sidebar>
@@ -59,10 +66,12 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
+          <SidebarGroupLabel>
+            {isAdmin ? 'Admin Menu' : 'Employee Menu'}
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigationItems.map((item) => (
+              {(isAdmin ? adminItems : employeeItems).map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild 
@@ -79,12 +88,12 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         
-        {currentUser.role === 'admin' && (
+        {isAdmin && (
           <SidebarGroup>
-            <SidebarGroupLabel>Administration</SidebarGroupLabel>
+            <SidebarGroupLabel>Employee Access</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {adminItems.map((item) => (
+                {employeeItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton 
                       asChild 

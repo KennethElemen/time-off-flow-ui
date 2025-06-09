@@ -6,7 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LeaveProvider } from "./contexts/LeaveContext";
 import Layout from "./components/Layout";
-import Dashboard from "./pages/Dashboard";
+import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import LeaveRequest from "./pages/LeaveRequest";
 import UserProfile from "./pages/UserProfile";
 import AdminPanel from "./pages/AdminPanel";
@@ -24,10 +25,12 @@ const App = () => (
           <div className="min-h-screen w-full">
             <Routes>
               <Route path="/" element={<Layout />}>
-                <Route index element={<Dashboard />} />
+                <Route index element={<EmployeeDashboard />} />
+                <Route path="employee" element={<EmployeeDashboard />} />
+                <Route path="admin" element={<AdminDashboard />} />
+                <Route path="admin-panel" element={<AdminPanel />} />
                 <Route path="leave-request" element={<LeaveRequest />} />
                 <Route path="profile" element={<UserProfile />} />
-                <Route path="admin" element={<AdminPanel />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
